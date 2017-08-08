@@ -17,13 +17,13 @@ class Migrate {
 
     public function migrateDemo(array $demo): bool {
         if (!$this->store->exists($demo['name'])) {
-            throw new \Exception('demo not found');
+            throw new \Exception('demo not found: ' . $this->store->generatePath($demo['name']));
         }
 
         $hash = $this->store->hash($demo['name']);
 
         if ($hash !== $demo['hash']) {
-            throw new \Exception('hash mismatch');
+            throw new \Exception('hash mismatch: ' . $this->store->generatePath($demo['name']));
         }
 
         return $this->api->changeDemo(
