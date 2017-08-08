@@ -1,0 +1,11 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Demostf\\Migrate\\": "src/"
+    }
+  },
+  "require": {
+    "vlucas/phpdotenv": "^2.4",
+    "guzzlehttp/guzzle": "^6.3"
+  }
+}
