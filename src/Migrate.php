@@ -16,21 +16,22 @@ class Migrate {
     }
 
     public function migrateDemo(array $demo): bool {
-        if (!$this->store->exists($demo['name'])) {
-            throw new \Exception('demo not found: ' . $this->store->generatePath($demo['name']));
+        $name = basename($demo['url']);
+        if (!$this->store->exists($name)) {
+            throw new \Exception('demo not found: ' . $this->store->generatePath($name));
         }
 
-        $hash = $this->store->hash($demo['name']);
+        $hash = $this->store->hash($name);
 
         if ($hash !== $demo['hash']) {
-            throw new \Exception('hash mismatch: ' . $this->store->generatePath($demo['name']));
+            throw new \Exception('hash mismatch: ' . $this->store->generatePath($name));
         }
 
         return $this->api->changeDemo(
             $demo['id'],
             $this->backend,
-            $this->store->generatePath($demo['name']),
-            $this->store->generateUrl($demo['name']),
+            $this->store->generatePath($name),
+            $this->store->generateUrl($name),
             $hash,
             $this->key
         );
