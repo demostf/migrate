@@ -17,7 +17,7 @@ class Migrate {
 
     public function migrateDemo(array $demo): bool {
         if (!$this->store->exists($demo['name'])) {
-            return false;
+            throw new \Exception('demo not found');
         }
 
         $hash = $this->store->hash($demo['name']);
