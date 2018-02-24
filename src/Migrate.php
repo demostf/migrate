@@ -18,7 +18,7 @@ class Migrate {
     public function migrateDemo(array $demo): bool {
         $name = basename($demo['url']);
         if (!$this->store->exists($name)) {
-            throw new \Exception('demo not found: ' . $this->store->generatePath($name));
+            $this->reDownloadDemo($demo);
         }
 
         $hash = $this->store->hash($name);
