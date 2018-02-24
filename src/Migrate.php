@@ -24,7 +24,7 @@ class Migrate {
         $hash = $this->store->hash($name);
 
         if ($hash !== $demo['hash']) {
-            throw new \Exception('hash mismatch: ' . $this->store->generatePath($name));
+            $this->reDownloadDemo($demo);
         }
 
         return $this->api->changeDemo(
@@ -35,5 +35,20 @@ class Migrate {
             $hash,
             $this->key
         );
+    }
+
+    private function reDownloadDemo(array $demo) {
+        $name = basename($demo['url']);
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'dem_');
+        copy($demo['url'], $tmpFile);
+
+        $newHash = md5_file($tmpFile);
+        if ($newHash !== $demo['hash']) {
+            throw new \Exception('hash mismatch even after re-download: ' . $this->store->generatePath($name));
+        }
+
+        unlink($this->store->generatePath($name));
+        rename($tmpFile, $this->store->generatePath($name));
     }
 }
