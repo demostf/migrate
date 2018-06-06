@@ -16,7 +16,11 @@ class Store {
     }
 
     public function generatePath(string $name): string {
-        return $this->baseDir . $this->getPrefix($name) . $name;
+        $parent = $this->baseDir . $this->getPrefix($name);
+        if (!is_dir($parent)) {
+            mkdir($parent, 0777, true);
+        }
+        return $parent . $name;
     }
 
     private function getPrefix(string $name): string {
