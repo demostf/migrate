@@ -12,7 +12,7 @@ $api = new \Demostf\Migrate\Api(getenv('SOURCE'));
 $migrate = new \Demostf\Migrate\Migrate($api, $store, getenv('BACKEND'), getenv('KEY'));
 $statePath = getenv('STATE_FILE');
 
-$fromDate = new DateTime('-1 weeks');
+$fromDate = new DateTime('-5 days');
 
 $list = $api->listDemos(1, 'ASC', 'static');
 foreach ($list as $demo) {
