@@ -41,7 +41,10 @@ class Migrate {
         $name = basename($demo['url']);
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'dem_');
-        copy($demo['url'], $tmpFile);
+        $encodedUrl = rawurlencode($demo['url']);
+        $encodedUrl = str_replace('%2F', '/', $encodedUrl);
+        $encodedUrl = str_replace('%3A//', '://', $encodedUrl);
+        copy($encodedUrl, $tmpFile);
 
         $newHash = md5_file($tmpFile);
         if ($newHash !== $demo['hash']) {
