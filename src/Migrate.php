@@ -51,7 +51,9 @@ class Migrate {
             throw new \Exception('hash mismatch even after re-download: ' . $this->store->generatePath($name));
         }
 
-        unlink($this->store->generatePath($name));
-        rename($tmpFile, $this->store->generatePath($name));
+        $path = $this->store->generatePath($name);
+        unlink($path);
+        rename($tmpFile, $path);
+        chmod($path, 0644);
     }
 }
